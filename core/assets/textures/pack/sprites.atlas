@@ -1,0 +1,41 @@
+
+sprites.png
+size: 512,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+drifter
+  rotate: false
+  xy: 388, 22
+  size: 32, 128
+  orig: 32, 128
+  offset: 0, 0
+  index: -1
+drifter_moving
+  rotate: false
+  xy: 2, 22
+  size: 384, 128
+  orig: 384, 128
+  offset: 0, 0
+  index: -1
+health
+  rotate: false
+  xy: 2, 12
+  size: 32, 8
+  orig: 32, 8
+  offset: 0, 0
+  index: -1
+shadow_normal
+  rotate: false
+  xy: 422, 142
+  size: 16, 8
+  orig: 16, 8
+  offset: 0, 0
+  index: -1
+shadow_small
+  rotate: false
+  xy: 2, 2
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1

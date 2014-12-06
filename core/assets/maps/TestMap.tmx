@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32" spacing="2" margin="1">
+  <image source="tilesets/tileset.png" width="136" height="136"/>
+  <tile id="7">
+   <properties>
+    <property name="height" value="0"/>
+    <property name="width" value="-16"/>
+    <property name="x" value="16"/>
+    <property name="y" value="0"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="height" value="0"/>
+    <property name="width" value="-16"/>
+    <property name="x" value="0"/>
+    <property name="y" value="0"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="height" value="-16"/>
+    <property name="width" value="0"/>
+    <property name="x" value="0"/>
+    <property name="y" value="16"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="height" value="-16"/>
+    <property name="width" value="0"/>
+    <property name="x" value="0"/>
+    <property name="y" value="0"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Background" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3BMQEAAADCoPVP7WULoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgBt5RKnmQJwAAA==
+  </data>
+ </layer>
+ <layer name="Art 1" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3ZWw7CIBQFwKr737M/bYKmtw9Ty0mYSfiSGLxHKNBpus6zaNzvMTd55GgzWPKhH3MjizzyyCOLPLJ4pmcxP3KsnUHoy/zIIo8s8uiv3UfJI4s8ssgjh/urLEfzcG6vVTU8UrOtd1DuS37T1q2qa9un6nf2s60xjGwrg6Q2it51lsen9je/5taz7tUYRlGt51V9vp3NcOlfjWPEDP5BPfs58h/f6rf3PVzD3Mgijxxrzw7rUR8j709TySPL3jmF+5kfWaxZWeyxcrgvySKPLPLIIo8s8gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4EpvLOkuW0CcAAA=
+  </data>
+ </layer>
+ <layer name="Art 2" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3XWwrCMBQFwJbuf8/+CJWSm0cpyZXOgEhjko9ziJpte8b+fUXPrKUPaHNG8vCdtdY1e32s5T9WLvLPYf9518d6eshFH7noI5eoDx3loqdnle53o+ujPnQS680sGqvtuxfmOTd1I9lHudY67bm3OzOnkexrfUR79GStj9NIXtG8u5+NzHmbY/K6Wfv9q2MrZ1HLp7TmCMbv7vdWtWyvYz1rWvtF3esj1pNpLdc7axnTm2Nrnj6eoY/cWpkzV+s3hLn0kUvrvsF8+sjlzt2e+ZybXPSRiz4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYL0Ps3zgCUCcAAA=
+  </data>
+ </layer>
+ <layer name="Collision" width="100" height="100" opacity="0.4">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3TMQ7CMBAEQAr+/2bqKyJCZHt9ZlaaCstGu8rr1SPvPzEqo++7uv90szJr79N1Sbone9Ske7JHTbone9Skezphj5FvpHs6YY+RSffUcY+ZG6d76rjHzKR7skdNuid71KR76rTHim3TPXXaY0XSPdmjJt2TPWrSPZ28x5O30z2l97jT2Yg77ibd08o9fun+6tzT3+6eSfe0co8OSfdkj5p0T4k9dtjo6j+ke9rl+/h27tcNn26e7mmXPXZJuqed90h8W+medt4jkXRP9qhJ93TCHiPfSPfUaY+V256uS9I9ddtj9r7pnrrtMTvpnuxRk+7plD1GvZPu6ZQ9RiXdkz1q0j3Zoybdkz1q0j3ZoybdEwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa30ACEjw+0CcAAA=
+  </data>
+ </layer>
+ <objectgroup name="Collisions"/>
+ <objectgroup name="Entities">
+  <object name="drifter" type="Player" x="26" y="675.5" width="32" height="32">
+   <properties>
+    <property name="EntitySize" value="normal"/>
+    <property name="height" value="32"/>
+    <property name="width" value="32"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object name="health" type="item.consumable.HealthOrb" x="183.25" y="675.75" width="8" height="8">
+   <properties>
+    <property name="EntitySize" value="small"/>
+    <property name="height" value="8"/>
+    <property name="width" value="8"/>
+   </properties>
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Interactions">
+  <object name="Platform" type="Platform" x="163" y="1028" width="89.5" height="86.5">
+   <properties>
+    <property name="Vx" value="0"/>
+    <property name="Vy" value="1"/>
+   </properties>
+  </object>
+  <object name="Platform" type="Platform" x="164.25" y="733.25" width="87" height="29.5">
+   <properties>
+    <property name="setVx" value="1"/>
+    <property name="setVy" value="-1"/>
+   </properties>
+  </object>
+  <object name="Platform" type="Platform" x="293.75" y="1120.25" width="87" height="29.5">
+   <properties>
+    <property name="setVx" value="-1"/>
+    <property name="setVy" value="0"/>
+   </properties>
+  </object>
+  <object name="Platform" type="Platform" x="385.5" y="895.75" width="29" height="92">
+   <properties>
+    <property name="setVx" value="0"/>
+   </properties>
+  </object>
+  <object name="Platform" type="Platform" x="128.5" y="1025.5" width="29" height="92">
+   <properties>
+    <property name="setVx" value="0"/>
+    <property name="setVy" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
