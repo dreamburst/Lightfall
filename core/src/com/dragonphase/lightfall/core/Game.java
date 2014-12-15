@@ -22,18 +22,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.dragonphase.lightfall.input.*;
+import com.dragonphase.lightfall.input.control.ControlMap;
+import com.dragonphase.lightfall.input.control.Controls;
+import com.dragonphase.lightfall.input.type.Axis;
+import com.dragonphase.lightfall.input.type.Buttons;
+import com.dragonphase.lightfall.input.type.Keys;
 import com.dragonphase.lightfall.util.Assets;
 import com.dragonphase.lightfall.util.ScreenViewport;
 
 public class Game extends ApplicationAdapter implements LogicBase {
-
-    private Lightfall lightfall;
-
-    private SpriteBatch spriteBatch;
-
-    private ScreenViewport viewport;
 
     public static boolean DEBUG;
 
@@ -42,13 +40,17 @@ public class Game extends ApplicationAdapter implements LogicBase {
         return input;
     }
 
-    @Override
-    public void create () {
+    private Lightfall lightfall;
 
-        lightfall = new Lightfall();
+    private SpriteBatch spriteBatch;
 
-        spriteBatch = new SpriteBatch();
+    private ScreenViewport viewport;
 
+    private boolean globalPaused;
+
+    private ControlMap map;
+
+    public void registerInputManager() {
         Keyboard keyboard = new Keyboard(128);
         Gamepad gamepad = new Gamepad(128);
 
@@ -57,8 +59,28 @@ public class Game extends ApplicationAdapter implements LogicBase {
 
         input = new InputManager(keyboard, gamepad);
 
-        viewport = new ScreenViewport();
+        map = new ControlMap();
+
+        map.setControl(Controls.MOVE_UP, Keys.W, Axis.L_UP);
+        map.setControl(Controls.MOVE_DOWN, Keys.S, Axis.L_DOWN);
+        map.setControl(Controls.MOVE_LEFT, Keys.A, Axis.L_LEFT);
+        map.setControl(Controls.MOVE_RIGHT, Keys.D, Axis.L_RIGHT);
     }
+
+    @Override
+    public void create () {
+        spriteBatch = new SpriteBatch();
+
+        viewport = new ScreenViewport();
+
+        lightfall = new Lightfall();
+
+        registerInputManager();
+
+        controlMap = new ControlMap();
+    }
+
+    ControlMap controlMap;
 
     @Override
     public void resize(int width, int height) {
@@ -72,28 +94,44 @@ public class Game extends ApplicationAdapter implements LogicBase {
     }
 
     @Override
+    public void pause() {
+        globalPaused = true;
+    }
+
+    @Override
+    public void resume() {
+        globalPaused = false;
+    }
+
+    @Override
     public void update(float delta) {
         viewport.update(delta);
 
-        lightfall.update(delta);
+        if (!globalPaused) {
+            lightfall.update(delta);
 
-        if (getInput().inputReleased(Keys.F11, Buttons.Back)) {
-            if (Gdx.graphics.isFullscreen()) {
-                Gdx.graphics.setDisplayMode(Assets.VIEWPORT_SIZE.getWidth(), Assets.VIEWPORT_SIZE.getHeight(), false);
-            } else {
-                Gdx.graphics.setDisplayMode(
-                        Gdx.graphics.getDesktopDisplayMode().width,
-                        Gdx.graphics.getDesktopDisplayMode().height,
-                        true
-                );
+            /*
+            This is used for debugging purposes and will be removed in the final game; options to
+            change the game resolution and toggle fullscreen will be added in the final game.
+              */
+            if (getInput().inputReleased(Keys.F11)) {
+                if (Gdx.graphics.isFullscreen()) {
+                    Gdx.graphics.setDisplayMode(Assets.VIEWPORT_SIZE.getWidth(), Assets.VIEWPORT_SIZE.getHeight(), false);
+                } else {
+                    Gdx.graphics.setDisplayMode(
+                            Gdx.graphics.getDesktopDisplayMode().width,
+                            Gdx.graphics.getDesktopDisplayMode().height,
+                            true
+                    );
+                }
             }
-        }
 
-        if (getInput().inputPressed(Keys.F3)) {
-            DEBUG = !DEBUG;
-        }
+            if (getInput().inputReleased(Keys.F3, Buttons.L3)) {
+                DEBUG = !DEBUG;
+            }
 
-        getInput().update();
+            getInput().update();
+        }
     }
 
     @Override

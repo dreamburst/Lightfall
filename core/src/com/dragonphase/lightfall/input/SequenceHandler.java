@@ -5,6 +5,8 @@
 
 package com.dragonphase.lightfall.input;
 
+import com.dragonphase.lightfall.input.type.InputType;
+
 import java.util.LinkedList;
 
 public class SequenceHandler<T extends InputType> extends InputHandler<T> {

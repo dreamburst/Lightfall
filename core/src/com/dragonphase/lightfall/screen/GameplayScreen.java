@@ -7,7 +7,7 @@ package com.dragonphase.lightfall.screen;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.dragonphase.lightfall.core.Game;
-import com.dragonphase.lightfall.input.Keys;
+import com.dragonphase.lightfall.input.type.Keys;
 
 public class GameplayScreen extends Screen {
 

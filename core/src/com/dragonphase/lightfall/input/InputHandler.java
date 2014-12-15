@@ -5,6 +5,8 @@
 
 package com.dragonphase.lightfall.input;
 
+import com.dragonphase.lightfall.input.type.InputType;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,7 +39,6 @@ public class InputHandler<T extends InputType> {
     }
 
     public void update() {
-        previousInput = currentInput == null ? new HashSet<T>() : new HashSet<>(currentInput);
-        currentInput = getCurrentInput();
+        previousInput = currentInput == null ? null : new HashSet<>(currentInput);
     }
 }

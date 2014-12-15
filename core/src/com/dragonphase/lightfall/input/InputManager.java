@@ -5,6 +5,11 @@
 
 package com.dragonphase.lightfall.input;
 
+import com.dragonphase.lightfall.input.type.Axis;
+import com.dragonphase.lightfall.input.type.Buttons;
+import com.dragonphase.lightfall.input.type.InputType;
+import com.dragonphase.lightfall.input.type.Keys;
+
 import java.util.*;
 
 public class InputManager {
@@ -50,9 +55,9 @@ public class InputManager {
     }
 
     /**
-     * Gets whether at least one of the specified {@link InputType} is down.
-     * @param types The {@link InputType} to check.
-     * @return true if at least one of the specified {@link InputType} is down.
+     * Gets whether at least one of the specified {@link com.dragonphase.lightfall.input.type.InputType} is down.
+     * @param types The {@link com.dragonphase.lightfall.input.type.InputType} to check.
+     * @return true if at least one of the specified {@link com.dragonphase.lightfall.input.type.InputType} is down.
      */
     public boolean inputDown(InputType... types) {
         for (InputType type : types) {

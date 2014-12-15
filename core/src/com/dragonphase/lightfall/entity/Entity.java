@@ -3,8 +3,8 @@
     View the Game class for full notice of license.
  */
 
-package com.dragonphase.lightfall.input;
+package com.dragonphase.lightfall.entity;
 
-public interface InputType {
-    public int getCode();
+public abstract class Entity {
+
 }

@@ -6,6 +6,7 @@
 package com.dragonphase.lightfall.input;
 
 import com.badlogic.gdx.InputProcessor;
+import com.dragonphase.lightfall.input.type.Keys;
 
 public class Keyboard extends SequenceHandler<Keys> implements InputProcessor {
 
