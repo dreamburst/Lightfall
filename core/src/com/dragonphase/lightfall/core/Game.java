@@ -22,11 +22,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.dragonphase.lightfall.input.Gamepad;
 import com.dragonphase.lightfall.input.InputManager;
 import com.dragonphase.lightfall.input.Keyboard;
 import com.dragonphase.lightfall.input.Keys;
 import com.dragonphase.lightfall.util.Assets;
+import com.dragonphase.lightfall.util.ScreenViewport;
 
 public class Game extends ApplicationAdapter implements LogicBase {
 
@@ -34,18 +36,21 @@ public class Game extends ApplicationAdapter implements LogicBase {
 
     private SpriteBatch spriteBatch;
 
-    private static InputManager input;
+    private ScreenViewport viewport;
 
     public static boolean DEBUG;
 
+    private static InputManager input;
     public static InputManager getInput() {
         return input;
     }
 
-	public void create () {
+    @Override
+    public void create () {
+
         lightfall = new Lightfall();
 
-		spriteBatch = new SpriteBatch();
+        spriteBatch = new SpriteBatch();
 
         Keyboard keyboard = new Keyboard(128);
         Gamepad gamepad = new Gamepad(128);
@@ -54,19 +59,30 @@ public class Game extends ApplicationAdapter implements LogicBase {
         Controllers.addListener(gamepad);
 
         input = new InputManager(keyboard, gamepad);
-	}
 
-	public void render () {
+        viewport = new ScreenViewport();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        viewport.resize(width, height);
+    }
+
+    @Override
+    public void render () {
         update(Gdx.graphics.getDeltaTime());
         draw(spriteBatch, Gdx.graphics.getDeltaTime());
-	}
+    }
 
+    @Override
     public void update(float delta) {
+        viewport.update(delta);
+
         lightfall.update(delta);
 
         if (getInput().inputReleased(Keys.F11)) {
             if (Gdx.graphics.isFullscreen()) {
-                Gdx.graphics.setDisplayMode(Assets.SCREEN_SIZE.getWidth(), Assets.SCREEN_SIZE.getHeight(), false);
+                Gdx.graphics.setDisplayMode(Assets.VIEWPORT_SIZE.getWidth(), Assets.VIEWPORT_SIZE.getHeight(), false);
             } else {
                 Gdx.graphics.setDisplayMode(
                         Gdx.graphics.getDesktopDisplayMode().width,
@@ -83,7 +99,10 @@ public class Game extends ApplicationAdapter implements LogicBase {
         getInput().update();
     }
 
+    @Override
     public void draw(SpriteBatch spriteBatch, float delta) {
+        viewport.draw(spriteBatch, delta);
+
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 

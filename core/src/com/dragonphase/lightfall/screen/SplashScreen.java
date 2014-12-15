@@ -5,17 +5,15 @@
 
 package com.dragonphase.lightfall.screen;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.dragonphase.lightfall.event.screen.SplashScreenEndEvent;
 import com.dragonphase.lightfall.util.Assets;
 
 public class SplashScreen extends Screen {
 
     private SplashScreenEndEvent endEvent;
 
-    private Texture splashTexture;
     private Image image;
 
     private float alpha = 0;
@@ -29,10 +27,10 @@ public class SplashScreen extends Screen {
     public SplashScreen(ScreenManager screenManager, String ref) {
         super(screenManager);
 
-        splashTexture = new Texture(Gdx.files.internal("textures/screens/" + ref + ".png"));
-        image = new Image(splashTexture);
-        image.setX(Assets.SCREEN_SIZE.getWidth() / 2 - (image.getScaleX() * image.getWidth()) / 2);
-        image.setY(Assets.SCREEN_SIZE.getHeight() / 2 - (image.getScaleY() * image.getHeight()) / 2);
+        image = new Image(Assets.getScreen(ref));
+
+        image.setX(Assets.VIEWPORT_SIZE.getWidth() / 2 - (image.getScaleX() * image.getWidth()) / 2);
+        image.setY(Assets.VIEWPORT_SIZE.getHeight() / 2 - (image.getScaleY() * image.getHeight()) / 2);
     }
 
     public boolean hasEnded() {
@@ -43,14 +41,12 @@ public class SplashScreen extends Screen {
         this.endEvent = endEvent;
     }
 
+    @Override
     public void update(float delta) {
         if (!hasEnded()) {
             if (initialInterval + speed < initialDelay) {
                 initialInterval += speed;
-                return;
-            }
-
-            if (alpha + speed < 1 && interval + speed < delay) {
+            } else if (alpha + speed < 1 && interval + speed < delay) {
                 alpha += speed;
             } else {
                 interval += speed;
@@ -65,6 +61,7 @@ public class SplashScreen extends Screen {
         }
     }
 
+    @Override
     public void draw(SpriteBatch spriteBatch, float delta) {
         if (!hasEnded()) {
             image.draw(spriteBatch, alpha);

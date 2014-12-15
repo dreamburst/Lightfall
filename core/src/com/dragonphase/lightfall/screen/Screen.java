@@ -14,16 +14,12 @@ public abstract class Screen implements LogicBase {
     private boolean visible;
 
     public Screen(ScreenManager screenManager) {
-        setScreenManager(screenManager);
+        this.screenManager = screenManager;
         setVisible(true);
     }
 
     public ScreenManager getScreenManager() {
         return screenManager;
-    }
-
-    public void setScreenManager(ScreenManager screenManager) {
-        this.screenManager = screenManager;
     }
 
     public boolean isVisible() {

@@ -60,12 +60,14 @@ public class ScreenManager implements LogicBase {
         }
     }
 
+    @Override
     public void update(float delta) {
         if (getActiveScreen() != null) {
             getActiveScreen().update(delta);
         }
     }
 
+    @Override
     public void draw(SpriteBatch spriteBatch, float delta) {
         for (Screen screen : getScreens()) {
             if (screen.isVisible()) {

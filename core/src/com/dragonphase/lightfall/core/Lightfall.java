@@ -8,9 +8,9 @@ package com.dragonphase.lightfall.core;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.dragonphase.lightfall.screen.ScreenManager;
 import com.dragonphase.lightfall.screen.SplashScreen;
-import com.dragonphase.lightfall.screen.SplashScreenEndEvent;
+import com.dragonphase.lightfall.event.screen.SplashScreenEndEvent;
 
-public class Lightfall {
+public class Lightfall implements LogicBase {
 
     private ScreenManager screenManager;
 
@@ -21,6 +21,7 @@ public class Lightfall {
         final SplashScreen splashScreen2 = new SplashScreen(screenManager, "splash2");
 
         splashScreen.onEnd(new SplashScreenEndEvent() {
+            @Override
             public void end(SplashScreen screen) {
                 screen.getScreenManager().removeScreen(SplashScreen.class);
 
@@ -30,6 +31,7 @@ public class Lightfall {
         });
 
         splashScreen2.onEnd(new SplashScreenEndEvent() {
+            @Override
             public void end(SplashScreen screen) {
                 screen.getScreenManager().removeScreen(SplashScreen.class);
             }
@@ -39,10 +41,12 @@ public class Lightfall {
         screenManager.setActiveScreen(splashScreen);
     }
 
+    @Override
     public void update(float delta) {
         screenManager.update(delta);
     }
 
+    @Override
     public void draw(SpriteBatch spriteBatch, float delta) {
         screenManager.draw(spriteBatch, delta);
     }

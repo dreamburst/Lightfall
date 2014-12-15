@@ -17,12 +17,14 @@ public class GameplayScreen extends Screen {
         super(screenManager);
     }
 
+    @Override
     public void update(float delta) {
         if (Game.getInput().inputReleased(Keys.ESCAPE)) {
             paused = !paused;
         }
     }
 
+    @Override
     public void draw(SpriteBatch spriteBatch, float delta) {
 
     }
