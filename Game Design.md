@@ -55,7 +55,7 @@ This assumes the Controller used is an Xbox 360 Controller
 #### NATIVE PLAYER MECHANICS
 
 ##### Sprinting
-Sprinting acts similarly to the mountain buke in Pokémon, whereby the hero gains speed but loses control when coming to a stop. Unless mastered, this can cause the hero to take damage by falling off the edge of a cliff.
+Sprinting acts similarly to the mountain bike in Pokémon, whereby the hero gains speed but loses control when coming to a stop. Unless mastered, this can cause the hero to take damage by falling off the edge of a cliff.
 
 ##### Swordsmanship
 The hero wields a blade which can be used to quickly slice at enemies, or, if in focus stance, deal increased damage to all enemies within reach. Additional swordsman skills can be learnt.
