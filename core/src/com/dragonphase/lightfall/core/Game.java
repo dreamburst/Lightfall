@@ -23,10 +23,7 @@ import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.dragonphase.lightfall.input.Gamepad;
-import com.dragonphase.lightfall.input.InputManager;
-import com.dragonphase.lightfall.input.Keyboard;
-import com.dragonphase.lightfall.input.Keys;
+import com.dragonphase.lightfall.input.*;
 import com.dragonphase.lightfall.util.Assets;
 import com.dragonphase.lightfall.util.ScreenViewport;
 
@@ -80,7 +77,7 @@ public class Game extends ApplicationAdapter implements LogicBase {
 
         lightfall.update(delta);
 
-        if (getInput().inputReleased(Keys.F11)) {
+        if (getInput().inputReleased(Keys.F11, Buttons.Back)) {
             if (Gdx.graphics.isFullscreen()) {
                 Gdx.graphics.setDisplayMode(Assets.VIEWPORT_SIZE.getWidth(), Assets.VIEWPORT_SIZE.getHeight(), false);
             } else {

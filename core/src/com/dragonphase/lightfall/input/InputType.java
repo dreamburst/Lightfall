@@ -5,4 +5,6 @@
 
 package com.dragonphase.lightfall.input;
 
-public interface InputType {}
+public interface InputType {
+    public int getCode();
+}

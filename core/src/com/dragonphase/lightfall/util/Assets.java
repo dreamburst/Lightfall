@@ -9,8 +9,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import java.awt.*;
-
 public class Assets {
 
     public static final Size VIEWPORT_SIZE = new Size(480, 270);

@@ -1,13 +1,9 @@
 package com.dragonphase.lightfall.desktop;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.dragonphase.lightfall.core.Game;
-import com.dragonphase.lightfall.util.Assets;
-import com.dragonphase.lightfall.util.Size;
 
 import java.awt.*;
 
@@ -27,7 +23,7 @@ public class DesktopLauncher {
         config.width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         config.height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         config.resizable = false;
-        config.fullscreen = true;
+        config.fullscreen = false;
 
         config.vSyncEnabled = true;
 

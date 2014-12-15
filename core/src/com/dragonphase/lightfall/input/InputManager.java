@@ -9,24 +9,15 @@ import java.util.*;
 
 public class InputManager {
 
-    private Keyboard activeKeyboard;
-    private Gamepad activeGamepad;
-
-    private HashSet<Keys> currentKeys, previousKeys;
-    private HashSet<Keys> savedCurrentKeys, savedPreviousKeys;
-
-    private HashSet<Buttons> currentButtons, previousButtons;
-    private HashSet<Buttons> savedCurrentButtons, savedPreviousButtons;
-
-    private Map<Axis, Float> currentAxis, previousAxis;
-    private Map<Axis, Float> savedCurrentAxis, savedPreviousAxis;
+    private Keyboard keyboard;
+    private Gamepad gamepad;
 
     private Map<String, LinkedList<Keys>> registeredKeySequences;
     private Map<String, LinkedList<Buttons>> registeredButtonSequences;
 
     public InputManager(Keyboard keyboard, Gamepad gamepad) {
-        activeKeyboard = keyboard;
-        activeGamepad = gamepad;
+        this.keyboard = keyboard;
+        this.gamepad = gamepad;
 
         registeredKeySequences = new HashMap<>();
         registeredButtonSequences = new HashMap<>();
@@ -34,63 +25,49 @@ public class InputManager {
         update();
     }
 
-    //Save and Load the state of the InputManager
-
-    public void saveInputState() {
-        savedCurrentKeys = new HashSet<>(currentKeys);
-        savedPreviousKeys = new HashSet<>(previousKeys);
-
-        savedCurrentButtons = new HashSet<>(currentButtons);
-        savedPreviousButtons = new HashSet<>(previousButtons);
-
-        savedCurrentAxis = new HashMap<>(currentAxis);
-        savedPreviousAxis = new HashMap<>(previousAxis);
-    }
-
-    public void loadInputState() {
-        currentKeys = new HashSet<>(savedCurrentKeys);
-        previousKeys = new HashSet<>(savedPreviousKeys);
-
-        currentButtons = new HashSet<>(savedCurrentButtons);
-        previousButtons = new HashSet<>(savedPreviousButtons);
-
-        currentAxis = new HashMap<>(savedCurrentAxis);
-        previousAxis = new HashMap<>(savedPreviousAxis);
+    /**
+     * Saves the current state of the InputManager.
+     */
+    public void saveState() {
+        keyboard.saveInputState();
+        gamepad.saveInputState();
     }
 
     /**
-     * Update the state of the InputManager
+     * Loads the previous state of the InputManager.
      */
-    public void update() {
-        previousKeys = currentKeys == null ? new HashSet<Keys>() : new HashSet<>(currentKeys);
-        currentKeys = activeKeyboard.getActiveKeys();
-
-        previousButtons = currentButtons == null ? new HashSet<Buttons>() : new HashSet<>(currentButtons);
-        currentButtons = activeGamepad.getActiveButtons();
-
-        previousAxis = currentAxis == null ? new HashMap<Axis, Float>() : new HashMap<>(currentAxis);
-        currentAxis = activeGamepad.getActiveAxis();
-
-        activeKeyboard.updateSequenceInterval();
-        activeGamepad.updateSequenceInterval();
+    public void loadState() {
+        keyboard.loadInputState();
+        gamepad.loadInputState();
     }
 
-    //Input Down
+    public void update() {
+        keyboard.update();
+        gamepad.update();
 
+        keyboard.updateSequenceInterval();
+        gamepad.updateSequenceInterval();
+    }
+
+    /**
+     * Gets whether at least one of the specified {@link InputType} is down.
+     * @param types The {@link InputType} to check.
+     * @return true if at least one of the specified {@link InputType} is down.
+     */
     public boolean inputDown(InputType... types) {
         for (InputType type : types) {
             if (type instanceof Keys) {
-                if (keyDown((Keys) type)) {
+                if (keyboard.getCurrentInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof Buttons) {
-                if (buttonDown((Buttons) type)) {
+                if (gamepad.getCurrentInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof Axis) {
-                if (axeDown((Axis) type)) {
+                if (gamepad.getCurrentAxis().containsKey(type)) {
                     return true;
                 }
             }
@@ -99,38 +76,11 @@ public class InputManager {
         return false;
     }
 
-    public boolean keyDown(Keys... keys) {
-        for (Keys key : keys) {
-            if (currentKeys.contains(key)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public boolean buttonDown(Buttons... buttons) {
-        for (Buttons button : buttons) {
-            if (currentButtons.contains(button)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public boolean axeDown(Axis... axis) {
-        for (Axis axe : axis) {
-            if (currentAxis.containsKey(axe)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    //Multiple Input Down
-
+    /**
+     * Gets whether all of the specified {@link InputType} are down.
+     * @param types The {@link InputType} to check.
+     * @return true if all of the specified {@link InputType} are down.
+     */
     public boolean inputsDown(InputType... types) {
         for (InputType type : types) {
             if (!inputDown(type)) {
@@ -141,52 +91,25 @@ public class InputManager {
         return true;
     }
 
-    public boolean keysDown(Keys... keys) {
-        for (Keys key : keys) {
-            if (!keyDown(key)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public boolean buttonsDown(Buttons... buttons) {
-        for (Buttons button : buttons) {
-            if (!buttonDown(button)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public boolean axisDown(Axis... axis) {
-        for (Axis axe : axis) {
-            if (!axeDown(axe)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    //Input Up
-
+    /**
+     * Gets whether at least one of the specified {@link InputType} is up.
+     * @param types The {@link InputType} to check.
+     * @return true if at least one of the specified {@link InputType} is up.
+     */
     public boolean inputUp(InputType... types) {
         for (InputType type : types) {
             if (type instanceof Keys) {
-                if (keyUp((Keys) type)) {
+                if (!keyboard.getCurrentInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof Buttons) {
-                if (buttonUp((Buttons) type)) {
+                if (gamepad.getCurrentInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof Axis) {
-                if (axeUp((Axis) type)) {
+                if (gamepad.getCurrentAxis().containsKey(type)) {
                     return true;
                 }
             }
@@ -195,38 +118,11 @@ public class InputManager {
         return false;
     }
 
-    public boolean keyUp(Keys... keys) {
-        for (Keys key : keys) {
-            if (!currentKeys.contains(key)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public boolean buttonUp(Buttons... buttons) {
-        for (Buttons button : buttons) {
-            if (!currentButtons.contains(button)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public boolean axeUp(Axis... axis) {
-        for (Axis axe : axis) {
-            if (!currentAxis.containsKey(axe)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    //Multiple Input Up
-
+    /**
+     * Gets whether all of the specified {@link InputType} are up.
+     * @param types The {@link InputType} to check.
+     * @return true if all of the specified {@link InputType} are up.
+     */
     public boolean inputsUp(InputType... types) {
         for (InputType type : types) {
             if (!inputUp(type)) {
@@ -237,52 +133,25 @@ public class InputManager {
         return true;
     }
 
-    public boolean keysUp(Keys... keys) {
-        for (Keys key : keys) {
-            if (!keyUp(key)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public boolean buttonsUp(Buttons... buttons) {
-        for (Buttons button : buttons) {
-            if (!buttonUp(button)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public boolean axisUp(Axis... axis) {
-        for (Axis axe : axis) {
-            if (!axeUp(axe)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    //Input Pressed (During one update interval)
-
+    /**
+     * Gets whether at least one of the specified {@link InputType} was pressed.
+     * @param types The {@link InputType} to check.
+     * @return true if at least one of the specified {@link InputType} was pressed.
+     */
     public boolean inputPressed(InputType... types) {
         for (InputType type : types) {
             if (type instanceof Keys) {
-                if (keyPressed((Keys) type)) {
+                if (keyboard.getCurrentInput().contains(type) && !keyboard.getPreviousInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof Buttons) {
-                if (buttonPressed((Buttons) type)) {
+                if (gamepad.getCurrentInput().contains(type) && !gamepad.getPreviousInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof Axis) {
-                if (axePressed((Axis) type)) {
+                if (gamepad.getCurrentAxis().containsKey(type) && !gamepad.getPreviousAxis().containsKey(type)) {
                     return true;
                 }
             }
@@ -291,38 +160,11 @@ public class InputManager {
         return false;
     }
 
-    public boolean keyPressed(Keys... keys) {
-        for (Keys key : keys) {
-            if (currentKeys.contains(key) && !previousKeys.contains(key)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public boolean buttonPressed(Buttons... buttons) {
-        for (Buttons button : buttons) {
-            if (currentButtons.contains(button) && !previousButtons.contains(button)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public boolean axePressed(Axis... axis) {
-        for (Axis axe : axis) {
-            if (currentAxis.containsKey(axe) && !previousAxis.containsKey(axe)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    //Multiple Input Pressed (During one update interval)
-
+    /**
+     * Gets whether all of the specified {@link InputType} were pressed.
+     * @param types The {@link InputType} to check.
+     * @return true if all of the specified {@link InputType} were pressed.
+     */
     public boolean inputsPressed(InputType... types) {
         for (InputType type : types) {
             if (!inputPressed(type)) {
@@ -333,52 +175,25 @@ public class InputManager {
         return true;
     }
 
-    public boolean keysPressed(Keys... keys) {
-        for (Keys key : keys) {
-            if (!keyPressed(key)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public boolean buttonsPressed(Buttons... buttons) {
-        for (Buttons button : buttons) {
-            if (!buttonPressed(button)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public boolean axisPressed(Axis... axis) {
-        for (Axis axe : axis) {
-            if (!axePressed(axe)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    //Input Released (During one update interval)
-
+    /**
+     * Gets whether at least one of the specified {@link InputType} was released.
+     * @param types The {@link InputType} to check.
+     * @return true if at least one of the specified {@link InputType} was released.
+     */
     public boolean inputReleased(InputType... types) {
         for (InputType type : types) {
             if (type instanceof Keys) {
-                if (keyReleased((Keys) type)) {
+                if (!keyboard.getCurrentInput().contains(type) && keyboard.getPreviousInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof Buttons) {
-                if (buttonReleased((Buttons) type)) {
+                if (!gamepad.getCurrentInput().contains(type) && gamepad.getPreviousInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof Axis) {
-                if (axeReleased((Axis) type)) {
+                if (!gamepad.getCurrentAxis().containsKey(type) && gamepad.getPreviousAxis().containsKey(type)) {
                     return true;
                 }
             }
@@ -387,38 +202,11 @@ public class InputManager {
         return false;
     }
 
-    public boolean keyReleased(Keys... keys) {
-        for (Keys key : keys) {
-            if (!currentKeys.contains(key) && previousKeys.contains(key)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public boolean buttonReleased(Buttons... buttons) {
-        for (Buttons button : buttons) {
-            if (!currentButtons.contains(button) && previousButtons.contains(button)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public boolean axeReleased(Axis... axis) {
-        for (Axis axe : axis) {
-            if (!currentAxis.containsKey(axe) && previousAxis.containsKey(axe)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    //Multiple Input Released (During one update interval)
-
+    /**
+     * Gets whether all of the specified {@link InputType} were released.
+     * @param types The {@link InputType} to check.
+     * @return true if all of the specified {@link InputType} were released.
+     */
     public boolean inputsReleased(InputType... types) {
         for (InputType type : types) {
             if (!inputReleased(type)) {
@@ -429,88 +217,42 @@ public class InputManager {
         return true;
     }
 
-    public boolean keysReleased(Keys... keys) {
-        for (Keys key : keys) {
-            if (!keyReleased(key)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public boolean buttonsReleased(Buttons... buttons) {
-        for (Buttons button : buttons) {
-            if (!buttonReleased(button)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public boolean axisReleased(Axis... axis) {
-        for (Axis axe : axis) {
-            if (!axeReleased(axe)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     public float getAxisStrength(Axis axis) {
         if (inputsDown(axis)) {
-            return currentAxis.get(axis);
+            return gamepad.getCurrentAxis().get(axis);
         }
 
         return 0f;
     }
 
     public boolean hasSequence(InputType... types) {
-        for (InputType type : types) {
+        if (types[0] instanceof Keys) {
+            return hasSequence(keyboard, types);
+        }
 
+        if (types[0] instanceof Buttons) {
+            return hasSequence(gamepad, types);
         }
 
         return false;
     }
 
-    public boolean hasSequence(Keys... keys) {
-        if (activeKeyboard.getActiveSequence().size() < 1) {
+    public boolean hasSequence(SequenceHandler handler, InputType... types) {
+        if (handler.getActiveSequence().size() < 1) {
             return false;
         }
 
-        if (keys.length != activeKeyboard.getActiveSequence().size()) {
+        if (types.length != handler.getActiveSequence().size()) {
             return false;
         }
 
-        for (int i = 0; i < keys.length; i++) {
-            if (keys[i].getCode() != activeKeyboard.getActiveSequence().get(i).getCode()) {
+        for (int i = 0; i < types.length; i++) {
+            if (types[i].getCode() != ((InputType) handler.getActiveSequence().get(i)).getCode()) {
                 return false;
             }
         }
 
-        activeKeyboard.getActiveSequence().clear();
-
-        return true;
-    }
-
-    public boolean hasSequence(Buttons... buttons) {
-        if (activeGamepad.getActiveSequence().size() < 1) {
-            return false;
-        }
-
-        if (buttons.length != activeGamepad.getActiveSequence().size()) {
-            return false;
-        }
-
-        for (int i = 0; i < buttons.length; i++) {
-            if (buttons[i].getCode() != activeGamepad.getActiveSequence().get(i).getCode()) {
-                return false;
-            }
-        }
-
-        activeGamepad.getActiveSequence().clear();
+        handler.getActiveSequence().clear();
 
         return true;
     }
@@ -526,15 +268,11 @@ public class InputManager {
             buttons[i] = Buttons.match(splitSequence[i]);
         }
 
-        return hasSequence(keys) || hasSequence(buttons);
+        return hasSequence(keyboard, keys) || hasSequence(gamepad, buttons);
     }
 
-    public boolean hasKeySequence(LinkedList<Keys> keys) {
-        return hasSequence(keys.toArray(new Keys[keys.size()]));
-    }
-
-    public boolean hasButtonSequence(LinkedList<Buttons> buttons) {
-        return hasSequence(buttons.toArray(new Buttons[buttons.size()]));
+    public <T extends InputType> boolean hasSequence(LinkedList<T> types) {
+        return hasSequence(types.toArray(new InputType[types.size()]));
     }
 
     public void registerKeySequence(String name, LinkedList<Keys> keys) {
