@@ -27,32 +27,40 @@ public class InputManager {
         update();
     }
 
+    public Keyboard getKeyboard() {
+        return keyboard;
+    }
+
     public Mouse getMouse() {
-        return keyboard.getMouse();
+        return getKeyboard().getMouse();
+    }
+
+    public Gamepad getGamepad() {
+        return gamepad;
     }
 
     /**
      * Saves the current state of the InputManager.
      */
     public void saveState() {
-        keyboard.saveInputState();
-        gamepad.saveInputState();
+        getKeyboard().saveInputState();
+        getGamepad().saveInputState();
     }
 
     /**
      * Loads the previous state of the InputManager.
      */
     public void loadState() {
-        keyboard.loadInputState();
-        gamepad.loadInputState();
+        getKeyboard().loadInputState();
+        getGamepad().loadInputState();
     }
 
     public void update() {
-        keyboard.update();
-        gamepad.update();
+        getKeyboard().update();
+        getGamepad().update();
 
-        keyboard.updateSequenceInterval();
-        gamepad.updateSequenceInterval();
+        getKeyboard().updateSequenceInterval();
+        getGamepad().updateSequenceInterval();
     }
 
     /**
@@ -63,22 +71,22 @@ public class InputManager {
     public boolean inputDown(InputType... types) {
         for (InputType type : types) {
             if (type instanceof Keys) {
-                if (keyboard.getCurrentInput().contains(type)) {
+                if (getKeyboard().getCurrentInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof MouseButtons) {
-                if (keyboard.getMouse().getCurrentInput().contains(type)) {
+                if (getMouse().getCurrentInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof Buttons) {
-                if (gamepad.getCurrentInput().contains(type)) {
+                if (getGamepad().getCurrentInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof Axis) {
-                if (gamepad.getCurrentAxis().containsKey(type)) {
+                if (getGamepad().getCurrentAxis().containsKey(type)) {
                     return true;
                 }
             }
@@ -110,22 +118,22 @@ public class InputManager {
     public boolean inputUp(InputType... types) {
         for (InputType type : types) {
             if (type instanceof Keys) {
-                if (!keyboard.getCurrentInput().contains(type)) {
+                if (!getKeyboard().getCurrentInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof MouseButtons) {
-                if (!keyboard.getMouse().getCurrentInput().contains(type)) {
+                if (!getMouse().getCurrentInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof Buttons) {
-                if (!gamepad.getCurrentInput().contains(type)) {
+                if (!getGamepad().getCurrentInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof Axis) {
-                if (!gamepad.getCurrentAxis().containsKey(type)) {
+                if (!getGamepad().getCurrentAxis().containsKey(type)) {
                     return true;
                 }
             }
@@ -157,22 +165,22 @@ public class InputManager {
     public boolean inputPressed(InputType... types) {
         for (InputType type : types) {
             if (type instanceof Keys) {
-                if (keyboard.getCurrentInput().contains(type) && !keyboard.getPreviousInput().contains(type)) {
+                if (getKeyboard().getCurrentInput().contains(type) && !getKeyboard().getPreviousInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof MouseButtons) {
-                if (keyboard.getMouse().getCurrentInput().contains(type) && !keyboard.getMouse().getPreviousInput().contains(type)) {
+                if (getMouse().getCurrentInput().contains(type) && !getMouse().getPreviousInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof Buttons) {
-                if (gamepad.getCurrentInput().contains(type) && !gamepad.getPreviousInput().contains(type)) {
+                if (getGamepad().getCurrentInput().contains(type) && !getGamepad().getPreviousInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof Axis) {
-                if (gamepad.getCurrentAxis().containsKey(type) && !gamepad.getPreviousAxis().containsKey(type)) {
+                if (getGamepad().getCurrentAxis().containsKey(type) && !getGamepad().getPreviousAxis().containsKey(type)) {
                     return true;
                 }
             }
@@ -204,22 +212,22 @@ public class InputManager {
     public boolean inputReleased(InputType... types) {
         for (InputType type : types) {
             if (type instanceof Keys) {
-                if (!keyboard.getCurrentInput().contains(type) && keyboard.getPreviousInput().contains(type)) {
+                if (!getKeyboard().getCurrentInput().contains(type) && getKeyboard().getPreviousInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof MouseButtons) {
-                if (!keyboard.getMouse().getCurrentInput().contains(type) && keyboard.getMouse().getPreviousInput().contains(type)) {
+                if (!getMouse().getCurrentInput().contains(type) && getMouse().getPreviousInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof Buttons) {
-                if (!gamepad.getCurrentInput().contains(type) && gamepad.getPreviousInput().contains(type)) {
+                if (!getGamepad().getCurrentInput().contains(type) && getGamepad().getPreviousInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof Axis) {
-                if (!gamepad.getCurrentAxis().containsKey(type) && gamepad.getPreviousAxis().containsKey(type)) {
+                if (!getGamepad().getCurrentAxis().containsKey(type) && getGamepad().getPreviousAxis().containsKey(type)) {
                     return true;
                 }
             }
@@ -245,7 +253,7 @@ public class InputManager {
 
     public float getAxisStrength(Axis axis) {
         if (inputsDown(axis)) {
-            return gamepad.getCurrentAxis().get(axis);
+            return getGamepad().getCurrentAxis().get(axis);
         }
 
         return 0f;

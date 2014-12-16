@@ -7,7 +7,9 @@ package com.dragonphase.lightfall.screen;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.dragonphase.lightfall.core.Game;
+import com.dragonphase.lightfall.input.control.Controls;
 import com.dragonphase.lightfall.input.type.Keys;
+import com.dragonphase.lightfall.util.Assets;
 
 public class GameplayScreen extends Screen {
 
@@ -19,7 +21,7 @@ public class GameplayScreen extends Screen {
 
     @Override
     public void update(float delta) {
-        if (Game.getInput().inputReleased(Keys.ESCAPE)) {
+        if (Assets.CONTROLS.controlPressed(Controls.PAUSE)) {
             paused = !paused;
         }
     }

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dragonphase.lightfall.core.LogicBase;
 
@@ -21,11 +22,12 @@ public class ScreenViewport implements LogicBase{
     public ScreenViewport() {
         camera = new OrthographicCamera();
         camera.position.set(0, 0, 0);
-        viewport = new ExtendViewport(Assets.VIEWPORT_SIZE.getWidth(), Assets.VIEWPORT_SIZE.getHeight(), camera);
+        viewport = new ExtendViewport(Display.VIEWPORT_SIZE.getWidth(), Display.VIEWPORT_SIZE.getHeight(), camera);
+        viewport.update(Display.VIEWPORT_SIZE.getWidth(), Display.VIEWPORT_SIZE.getHeight(), true);
     }
 
     public void resize(int width, int height) {
-        viewport.update(width, height, true);
+        viewport.update(width, height);
     }
 
     @Override

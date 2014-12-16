@@ -25,12 +25,19 @@ public class ScreenManager implements LogicBase {
     }
 
     public <T extends Screen> T getScreen(Class<T> type) {
-        for (Screen screen : getScreens()) {
+        for (final Screen screen : getScreens()) {
             if (screen.getClass() == type) {
                 return type.cast(screen);
             }
         }
         return null;
+    }
+
+    public void addScreen(Screen screen) {
+        getScreens().add(screen);
+        if (getActiveScreen() == null) {
+            setActiveScreen(screen);
+        }
     }
 
     public void removeScreen(Screen screen) {
@@ -53,13 +60,6 @@ public class ScreenManager implements LogicBase {
         this.activeScreen = screen;
     }
 
-    public void addScreen(Screen screen) {
-        getScreens().add(screen);
-        if (getActiveScreen() == null) {
-            setActiveScreen(screen);
-        }
-    }
-
     @Override
     public void update(float delta) {
         if (getActiveScreen() != null) {
@@ -69,7 +69,7 @@ public class ScreenManager implements LogicBase {
 
     @Override
     public void draw(SpriteBatch spriteBatch, float delta) {
-        for (Screen screen : getScreens()) {
+        for (final Screen screen : getScreens()) {
             if (screen.isVisible()) {
                 screen.draw(spriteBatch, delta);
             }
