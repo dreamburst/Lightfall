@@ -5,10 +5,7 @@
 
 package com.dragonphase.lightfall.input;
 
-import com.dragonphase.lightfall.input.type.Axis;
-import com.dragonphase.lightfall.input.type.Buttons;
-import com.dragonphase.lightfall.input.type.InputType;
-import com.dragonphase.lightfall.input.type.Keys;
+import com.dragonphase.lightfall.input.type.*;
 
 import java.util.*;
 
@@ -28,6 +25,10 @@ public class InputManager {
         registeredButtonSequences = new HashMap<>();
 
         update();
+    }
+
+    public Mouse getMouse() {
+        return keyboard.getMouse();
     }
 
     /**
@@ -63,6 +64,11 @@ public class InputManager {
         for (InputType type : types) {
             if (type instanceof Keys) {
                 if (keyboard.getCurrentInput().contains(type)) {
+                    return true;
+                }
+            }
+            if (type instanceof MouseButtons) {
+                if (keyboard.getMouse().getCurrentInput().contains(type)) {
                     return true;
                 }
             }
@@ -108,13 +114,18 @@ public class InputManager {
                     return true;
                 }
             }
+            if (type instanceof MouseButtons) {
+                if (!keyboard.getMouse().getCurrentInput().contains(type)) {
+                    return true;
+                }
+            }
             if (type instanceof Buttons) {
-                if (gamepad.getCurrentInput().contains(type)) {
+                if (!gamepad.getCurrentInput().contains(type)) {
                     return true;
                 }
             }
             if (type instanceof Axis) {
-                if (gamepad.getCurrentAxis().containsKey(type)) {
+                if (!gamepad.getCurrentAxis().containsKey(type)) {
                     return true;
                 }
             }
@@ -147,6 +158,11 @@ public class InputManager {
         for (InputType type : types) {
             if (type instanceof Keys) {
                 if (keyboard.getCurrentInput().contains(type) && !keyboard.getPreviousInput().contains(type)) {
+                    return true;
+                }
+            }
+            if (type instanceof MouseButtons) {
+                if (keyboard.getMouse().getCurrentInput().contains(type) && !keyboard.getMouse().getPreviousInput().contains(type)) {
                     return true;
                 }
             }
@@ -189,6 +205,11 @@ public class InputManager {
         for (InputType type : types) {
             if (type instanceof Keys) {
                 if (!keyboard.getCurrentInput().contains(type) && keyboard.getPreviousInput().contains(type)) {
+                    return true;
+                }
+            }
+            if (type instanceof MouseButtons) {
+                if (!keyboard.getMouse().getCurrentInput().contains(type) && keyboard.getMouse().getPreviousInput().contains(type)) {
                     return true;
                 }
             }

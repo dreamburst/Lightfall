@@ -12,13 +12,15 @@ import com.badlogic.gdx.math.Vector3;
 import com.dragonphase.lightfall.input.type.Axis;
 import com.dragonphase.lightfall.input.type.Buttons;
 import com.dragonphase.lightfall.util.Assets;
+import com.dragonphase.lightfall.util.Utils;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Gamepad extends SequenceHandler<Buttons> implements ControllerListener {
 
-    private HashMap<Axis, Float> currentAxis, previousAxis;
-    private HashMap<Axis, Float> savedCurrentAxis, savedPreviousAxis;
+    private Map<Axis, Float> currentAxis, previousAxis;
+    private Map<Axis, Float> savedCurrentAxis, savedPreviousAxis;
 
     public Gamepad(int sequenceInterval) {
         super(sequenceInterval);
@@ -27,11 +29,11 @@ public class Gamepad extends SequenceHandler<Buttons> implements ControllerListe
         previousAxis = new HashMap<>();
     }
 
-    public HashMap<Axis, Float> getCurrentAxis() {
+    public Map<Axis, Float> getCurrentAxis() {
         return currentAxis;
     }
 
-    public HashMap<Axis, Float> getPreviousAxis() {
+    public Map<Axis, Float> getPreviousAxis() {
         return previousAxis;
     }
 
@@ -64,6 +66,8 @@ public class Gamepad extends SequenceHandler<Buttons> implements ControllerListe
 
     @Override
     public boolean axisMoved(Controller controller, int axisCode, float value) {
+        value = Utils.round(value, 2);
+
         if (Math.abs(value) >= Assets.CONTROLLER_DEADZONE) {
             getCurrentAxis().put(Axis.match(axisCode), value);
             switch (Axis.match(axisCode)) {
@@ -85,8 +89,7 @@ public class Gamepad extends SequenceHandler<Buttons> implements ControllerListe
                 default:
                     break;
             }
-        } else {
-            getCurrentAxis().remove(Axis.match(axisCode));
+        } else if (getCurrentAxis().containsKey(Axis.match(axisCode))) {
             switch (Axis.match(axisCode)) {
                 case LY:
                     getCurrentAxis().remove(Axis.L_UP);
@@ -105,11 +108,12 @@ public class Gamepad extends SequenceHandler<Buttons> implements ControllerListe
                     getCurrentAxis().remove(Axis.R_RIGHT);
                     break;
                 case Trigger:
-                    getCurrentAxis().remove(value < 0 ? Axis.RT : Axis.LT);
+                    getCurrentAxis().remove(getCurrentAxis().get(Axis.Trigger) < 0 ? Axis.RT : Axis.LT);
                     break;
                 default:
                     break;
             }
+            getCurrentAxis().remove(Axis.match(axisCode));
         }
 
         return true;
@@ -184,7 +188,6 @@ public class Gamepad extends SequenceHandler<Buttons> implements ControllerListe
     public void update() {
         super.update();
 
-        previousAxis = currentAxis == null ? new HashMap<Axis, Float>() : new HashMap<>(currentAxis);
-        currentAxis = getCurrentAxis();
+        previousAxis = currentAxis == null ? null : new HashMap<>(currentAxis);
     }
 }

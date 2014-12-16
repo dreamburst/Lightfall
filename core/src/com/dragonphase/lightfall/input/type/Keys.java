@@ -104,7 +104,7 @@ public enum Keys implements InputType {
     DELETE(112),
     END(132),
     PGDN(93),
-    ESCAPE(131)
+    ESCAPE(131),
     ;
 
     private static final HashMap<Integer, Keys> VALUES = new HashMap<>();

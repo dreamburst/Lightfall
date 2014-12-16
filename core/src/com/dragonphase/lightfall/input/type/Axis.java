@@ -22,7 +22,8 @@ public enum Axis implements InputType {
     R_LEFT(11),
     R_RIGHT(12),
     LT(13),
-    RT(14),;
+    RT(14),
+    ;
 
     private static final HashMap<Integer, Axis> VALUES = new HashMap<>();
 

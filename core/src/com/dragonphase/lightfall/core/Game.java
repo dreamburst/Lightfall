@@ -28,6 +28,7 @@ import com.dragonphase.lightfall.input.control.Controls;
 import com.dragonphase.lightfall.input.type.Axis;
 import com.dragonphase.lightfall.input.type.Buttons;
 import com.dragonphase.lightfall.input.type.Keys;
+import com.dragonphase.lightfall.input.type.MouseButtons;
 import com.dragonphase.lightfall.util.Assets;
 import com.dragonphase.lightfall.util.ScreenViewport;
 
@@ -65,6 +66,13 @@ public class Game extends ApplicationAdapter implements LogicBase {
         map.setControl(Controls.MOVE_DOWN, Keys.S, Axis.L_DOWN);
         map.setControl(Controls.MOVE_LEFT, Keys.A, Axis.L_LEFT);
         map.setControl(Controls.MOVE_RIGHT, Keys.D, Axis.L_RIGHT);
+        map.setControl(Controls.SPRINT, Keys.SPACE, Buttons.L3);
+        map.setControl(Controls.ATTACK, MouseButtons.LEFT, Axis.RT);
+        map.setControl(Controls.INTERACT, Keys.E, Buttons.A);
+        map.setControl(Controls.USE_ITEM, MouseButtons.RIGHT, Buttons.RB);
+        map.setControl(Controls.OPEN_INVENTORY, Keys.Q, Buttons.Y);
+        map.setControl(Controls.OPEN_MAP, Keys.C, Buttons.BACK);
+        map.setControl(Controls.PAUSE, Keys.ESCAPE, Buttons.START);
     }
 
     @Override
@@ -109,6 +117,10 @@ public class Game extends ApplicationAdapter implements LogicBase {
 
         if (!globalPaused) {
             lightfall.update(delta);
+
+            if (map.controlDown(Controls.ATTACK)) {
+                System.out.println("yes - " + getInput().getMouse().getPosition());
+            }
 
             /*
             This is used for debugging purposes and will be removed in the final game; options to

@@ -14,14 +14,15 @@ public enum Buttons implements InputType {
     Y(3),
     LB(4),
     RB(5),
-    Back(6),
-    Start(7),
+    BACK(6),
+    START(7),
     L3(8),
     R3(9),
     UP(10),
     DOWN(11),
     LEFT(12),
-    RIGHT(13);
+    RIGHT(13),
+    ;
 
     private static final HashMap<Integer, Buttons> VALUES = new HashMap<>();
 

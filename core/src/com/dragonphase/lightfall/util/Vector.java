@@ -33,4 +33,8 @@ public class Vector<T extends Number> {
         setX(x);
         setY(y);
     }
+
+    public String toString() {
+        return "x: " + getX() + "    y: " + getY();
+    }
 }
