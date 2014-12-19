@@ -6,6 +6,7 @@
 package com.dragonphase.lightfall.core;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.dragonphase.lightfall.screen.GameplayScreen;
 import com.dragonphase.lightfall.screen.ScreenManager;
 import com.dragonphase.lightfall.screen.SplashScreen;
 import com.dragonphase.lightfall.event.screen.SplashScreenEndEvent;
@@ -48,7 +49,9 @@ public class Lightfall implements LogicBase {
     }
 
     public void showMainMenu() {
-
+        GameplayScreen screen = new GameplayScreen(screenManager);
+        screenManager.addScreen(screen);
+        screenManager.setActiveScreen(screen);
     }
 
     @Override

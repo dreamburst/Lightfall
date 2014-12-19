@@ -6,35 +6,38 @@
 package com.dragonphase.lightfall.screen;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.dragonphase.lightfall.core.Game;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.dragonphase.lightfall.event.screen.SplashScreenEndEvent;
 import com.dragonphase.lightfall.input.control.Controls;
-import com.dragonphase.lightfall.input.type.Keys;
 import com.dragonphase.lightfall.util.Assets;
 import com.dragonphase.lightfall.util.Display;
+import com.dragonphase.lightfall.util.Vector;
 
 public class SplashScreen extends Screen {
 
     private SplashScreenEndEvent endEvent;
 
-    private final Image image;
+    private final TextureRegion texture;
 
-    private float alpha = 0;
-    private float speed = 0.02f;
-    private float interval = 0;
+    private Vector<Integer> position;
+
     private float initialInterval = 0;
+    private float interval = 0;
+    private float alpha = 0;
 
     private final float initialDelay = 0.5f;
     private final float delay = 2;
+    private final float speed = 0.02f;
 
     public SplashScreen(ScreenManager screenManager, String ref) {
         super(screenManager);
 
-        image = new Image(Assets.getScreen(ref));
+        texture = Assets.getScreen(ref);
 
-        image.setX(Display.VIEWPORT_SIZE.getWidth() / 2 - (image.getScaleX() * image.getWidth()) / 2);
-        image.setY(Display.VIEWPORT_SIZE.getHeight() / 2 - (image.getScaleY() * image.getHeight()) / 2);
+        position = new Vector<>(
+                Display.VIEWPORT_SIZE.getWidth() / 2 - (texture.getRegionWidth() / 2),
+                Display.VIEWPORT_SIZE.getHeight() / 2 - (texture.getRegionHeight() / 2)
+        );
     }
 
     public boolean hasEnded() {
@@ -76,7 +79,11 @@ public class SplashScreen extends Screen {
     @Override
     public void draw(SpriteBatch spriteBatch, float delta) {
         if (!hasEnded()) {
-            image.draw(spriteBatch, alpha);
+            spriteBatch.setColor(spriteBatch.getColor().r, spriteBatch.getColor().g, spriteBatch.getColor().b, alpha);
+            spriteBatch.draw(texture, position.getX(), position.getY());
+            spriteBatch.setColor(spriteBatch.getColor().r, spriteBatch.getColor().g, spriteBatch.getColor().b, 1);
+        } else {
+            alpha = 1;
         }
     }
 }

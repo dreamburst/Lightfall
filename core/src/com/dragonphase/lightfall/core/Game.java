@@ -22,6 +22,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.dragonphase.lightfall.entity.EntityState;
 import com.dragonphase.lightfall.input.control.Controls;
 import com.dragonphase.lightfall.input.type.Axis;
 import com.dragonphase.lightfall.input.type.Buttons;
@@ -30,6 +32,8 @@ import com.dragonphase.lightfall.input.type.MouseButtons;
 import com.dragonphase.lightfall.util.Assets;
 import com.dragonphase.lightfall.util.Display;
 import com.dragonphase.lightfall.util.ScreenViewport;
+
+import java.util.Map;
 
 public class Game extends ApplicationAdapter implements LogicBase {
 
@@ -77,12 +81,6 @@ public class Game extends ApplicationAdapter implements LogicBase {
     }
 
     @Override
-    public void render () {
-        update(Gdx.graphics.getDeltaTime());
-        draw(spriteBatch, Gdx.graphics.getDeltaTime());
-    }
-
-    @Override
     public void pause() {
         globalPaused = true;
     }
@@ -90,6 +88,13 @@ public class Game extends ApplicationAdapter implements LogicBase {
     @Override
     public void resume() {
         globalPaused = false;
+    }
+
+    @Override
+    public void render () {
+        update(Gdx.graphics.getDeltaTime());
+
+        draw(spriteBatch, Gdx.graphics.getDeltaTime());
     }
 
     @Override

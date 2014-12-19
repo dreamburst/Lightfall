@@ -13,11 +13,12 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
         TexturePacker.Settings settings = new TexturePacker.Settings();
         settings.combineSubdirectories = true;
+        //settings.flattenPaths = true;
         settings.maxWidth = 2048;
         settings.maxHeight = 2048;
         settings.fast = true;
 
-        TexturePacker.process(settings, "textures/entities", "textures/pack", "sprites");
+        TexturePacker.process(settings, "textures/entities", "textures/pack", "entities");
         TexturePacker.process(settings, "textures/screens", "textures/pack", "screens");
 
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();

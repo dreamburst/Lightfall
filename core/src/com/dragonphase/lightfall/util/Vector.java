@@ -22,7 +22,7 @@ public class Vector<T extends Number> {
     }
 
     public T getY() {
-        return this.y;
+        return y;
     }
 
     public void setY(T y) {
@@ -32,6 +32,66 @@ public class Vector<T extends Number> {
     public void set(T x, T y) {
         setX(x);
         setY(y);
+    }
+
+    public void add(Vector<T> vector) {
+        add(vector.getX(), vector.getY());
+    }
+
+    public void subtract(Vector<T> vector) {
+        subtract(vector.getX(), vector.getY());
+    }
+
+    public void multiply(Vector<T> vector) {
+        multiply(vector.getX(), vector.getY());
+    }
+
+    public void divide(Vector<T> vector) {
+        divide(vector.getX(), vector.getY());
+    }
+
+    public void add(T value) {
+        add(value, value);
+    }
+
+    public void subtract(T value) {
+        subtract(value, value);
+    }
+
+    public void multiply(T value) {
+        multiply(value, value);
+    }
+
+    public void divide(T value) {
+        divide(value, value);
+    }
+
+    public void add(T x, T y) {
+        set(
+                (T) (Number)(getX().doubleValue() + x.doubleValue()),
+                (T) (Number)(getY().doubleValue() + y.doubleValue())
+        );
+    }
+
+    public void subtract(T x, T y) {
+        set(
+                (T) (Number)(getX().doubleValue() - x.doubleValue()),
+                (T) (Number)(getY().doubleValue() - y.doubleValue())
+        );
+    }
+
+    public void multiply(T x, T y) {
+        set(
+                (T) (Number)(getX().doubleValue() * x.doubleValue()),
+                (T) (Number)(getY().doubleValue() * y.doubleValue())
+        );
+    }
+
+    public void divide(T x, T y) {
+        set(
+                (T) (Number)(getX().doubleValue() / x.doubleValue()),
+                (T) (Number)(getY().doubleValue() / y.doubleValue())
+        );
     }
 
     public String toString() {

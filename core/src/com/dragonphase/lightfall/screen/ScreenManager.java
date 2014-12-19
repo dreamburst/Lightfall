@@ -34,10 +34,10 @@ public class ScreenManager implements LogicBase {
     }
 
     public void addScreen(Screen screen) {
-        getScreens().add(screen);
-        if (getActiveScreen() == null) {
+        if (getActiveScreen() == null || getScreens().size() < 1) {
             setActiveScreen(screen);
         }
+        getScreens().add(screen);
     }
 
     public void removeScreen(Screen screen) {
