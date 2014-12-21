@@ -1,18 +1,7 @@
 /*
     Copyright (C) 2014 Dragonphase || Contributing Developers
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    All rights reserved.
  */
 
 package com.dragonphase.lightfall.core;
@@ -22,8 +11,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.dragonphase.lightfall.entity.EntityState;
 import com.dragonphase.lightfall.input.control.Controls;
 import com.dragonphase.lightfall.input.type.Axis;
 import com.dragonphase.lightfall.input.type.Buttons;
@@ -32,8 +19,6 @@ import com.dragonphase.lightfall.input.type.MouseButtons;
 import com.dragonphase.lightfall.util.Assets;
 import com.dragonphase.lightfall.util.Display;
 import com.dragonphase.lightfall.util.ScreenViewport;
-
-import java.util.Map;
 
 public class Game extends ApplicationAdapter implements LogicBase {
 
@@ -48,8 +33,8 @@ public class Game extends ApplicationAdapter implements LogicBase {
     private boolean globalPaused;
 
     public void registerInput() {
-        Gdx.input.setInputProcessor(Assets.INPUT.getKeyboard());
         Controllers.addListener(Assets.INPUT.getGamepad());
+        Gdx.input.setInputProcessor(Assets.INPUT.getKeyboard());
 
         Assets.CONTROLS.setControl(Controls.MOVE_UP, Keys.W, Axis.L_UP);
         Assets.CONTROLS.setControl(Controls.MOVE_DOWN, Keys.S, Axis.L_DOWN);
@@ -93,7 +78,6 @@ public class Game extends ApplicationAdapter implements LogicBase {
     @Override
     public void render () {
         update(Gdx.graphics.getDeltaTime());
-
         draw(spriteBatch, Gdx.graphics.getDeltaTime());
     }
 

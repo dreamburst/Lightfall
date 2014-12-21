@@ -79,7 +79,14 @@ Doors that are opened by striking the keyhole with a Twilit Keyblade, the boss k
 #### Void Walls
 Void Walls are walls of darkness that cannot be passed by matter. They can be teleported through using Lightstep.
 
-# Design
+# Art
+
+Art for Lightfall is represented in a 2D pixel style with a hint of ambience. Typically, default sprites have a size of 32x64 (for individual sprites, not for sprite sheets.) This is not limited for every sprite in the game.
+
+## Tile Sheets
+Tiles have a size of 16x16. Tiles can contain transparent pixels. Tiles in TileSheets do not need an order, but it would help to group relating tiles with each other.
+
+Tile Sheets should be kept within a folder named "tilesets" and given the name of the area of the world or dungeon they represent.
 
 ## Sprites
 

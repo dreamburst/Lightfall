@@ -60,11 +60,7 @@ public class SplashScreen extends Screen {
             }
 
             if (Assets.CONTROLS.controlPressed(Controls.values())) {
-                if (alpha - speed > 0 && interval + speed < delay) {
-                    interval = delay;
-                } else {
-                    endEvent.end(this);
-                }
+                endEvent.end(this);
             }
 
             if (alpha - speed > 0 && interval >= delay) {
@@ -82,8 +78,6 @@ public class SplashScreen extends Screen {
             spriteBatch.setColor(spriteBatch.getColor().r, spriteBatch.getColor().g, spriteBatch.getColor().b, alpha);
             spriteBatch.draw(texture, position.getX(), position.getY());
             spriteBatch.setColor(spriteBatch.getColor().r, spriteBatch.getColor().g, spriteBatch.getColor().b, 1);
-        } else {
-            alpha = 1;
         }
     }
 }

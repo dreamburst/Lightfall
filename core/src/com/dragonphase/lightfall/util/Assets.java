@@ -35,6 +35,8 @@ public final class Assets {
             new Gamepad(SEQUENCE_DELAY)
     );
 
+    public static final String[] CONTROLLER_NAMES = new String[] {"xbox", "playstation"};
+
     private Assets() {}
 
     public static Map<EntityState, TextureAtlas.AtlasRegion> getSprite(String ref) {
