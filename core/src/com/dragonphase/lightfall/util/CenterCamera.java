@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.dragonphase.lightfall.core.LogicBase;
+import com.dragonphase.lightfall.entity.Entity;
 
 public class CenterCamera implements LogicBase {
 
@@ -45,6 +46,10 @@ public class CenterCamera implements LogicBase {
 
     public void setTarget(Vector<Float> target) {
         this.target = target;
+    }
+
+    public void setTarget(Entity target) {
+        this.target = target.getCenterPosition();
     }
 
     public Vector<Float> getVelocity() {

@@ -11,8 +11,10 @@ import com.dragonphase.lightfall.entity.EntityController;
 import com.dragonphase.lightfall.entity.EntityState;
 import com.dragonphase.lightfall.entity.component.ControlComponent;
 import com.dragonphase.lightfall.entity.component.HealthComponent;
+import com.dragonphase.lightfall.entity.component.MovementComponent;
 import com.dragonphase.lightfall.input.control.ControlMap;
 import com.dragonphase.lightfall.input.control.Controls;
+import com.dragonphase.lightfall.util.Assets;
 import com.dragonphase.lightfall.util.Direction;
 import com.dragonphase.lightfall.util.Size;
 import com.dragonphase.lightfall.util.Vector;
@@ -31,6 +33,7 @@ public class Player extends LivingEntity implements Controllable {
         });
 
         addComponent(new ControlComponent());
+        addComponent(new MovementComponent(Assets.PLAYER_SPEED));
     }
 
     @Override

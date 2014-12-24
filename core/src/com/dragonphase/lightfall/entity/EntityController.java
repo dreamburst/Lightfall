@@ -12,8 +12,6 @@ public class EntityController {
     private Controllable controllable;
     private ControlMap controlMap;
 
-    // TODO: Followcam -> Focus on the controllable
-
     public EntityController(ControlMap controlMap) {
         setControlMap(controlMap);
     }

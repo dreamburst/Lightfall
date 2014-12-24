@@ -8,8 +8,6 @@ package com.dragonphase.lightfall.core;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public interface LogicBase {
-
     public void update(float delta);
-
     public void draw(SpriteBatch spriteBatch, float delta);
 }

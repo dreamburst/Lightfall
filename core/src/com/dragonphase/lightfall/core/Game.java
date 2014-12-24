@@ -19,16 +19,16 @@ import com.dragonphase.lightfall.input.type.MouseButtons;
 import com.dragonphase.lightfall.util.Assets;
 import com.dragonphase.lightfall.util.Display;
 import com.dragonphase.lightfall.util.ScreenViewport;
+import com.dragonphase.lightfall.util.Vector;
 
 public class Game extends ApplicationAdapter implements LogicBase {
 
     public static boolean DEBUG;
 
-    private Lightfall lightfall;
-
     private SpriteBatch spriteBatch;
-
     private ScreenViewport viewport;
+
+    private Lightfall lightfall;
 
     private boolean globalPaused;
 
@@ -50,9 +50,8 @@ public class Game extends ApplicationAdapter implements LogicBase {
     }
 
     @Override
-    public void create () {
+    public void create() {
         spriteBatch = new SpriteBatch();
-
         viewport = new ScreenViewport();
 
         lightfall = new Lightfall();

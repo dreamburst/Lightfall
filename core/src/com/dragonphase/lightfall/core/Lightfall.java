@@ -27,8 +27,8 @@ public class Lightfall implements LogicBase {
 
         splashScreen.onEnd(new SplashScreenEndEvent() {
             @Override
-            public void end(SplashScreen screen) {
-                screen.getScreenManager().removeScreen(SplashScreen.class);
+            public void end() {
+                splashScreen.getScreenManager().removeScreen(SplashScreen.class);
 
                 screenManager.addScreen(splashScreen2);
                 screenManager.setActiveScreen(splashScreen2);
@@ -37,8 +37,8 @@ public class Lightfall implements LogicBase {
 
         splashScreen2.onEnd(new SplashScreenEndEvent() {
             @Override
-            public void end(SplashScreen screen) {
-                screen.getScreenManager().removeScreen(SplashScreen.class);
+            public void end() {
+                splashScreen2.getScreenManager().removeScreen(SplashScreen.class);
 
                 showMainMenu();
             }

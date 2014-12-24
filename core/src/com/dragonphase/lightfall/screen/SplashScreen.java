@@ -60,13 +60,13 @@ public class SplashScreen extends Screen {
             }
 
             if (Assets.CONTROLS.controlPressed(Controls.values())) {
-                endEvent.end(this);
+                endEvent.end();
             }
 
             if (alpha - speed > 0 && interval >= delay) {
                 alpha -= speed;
                 if (alpha - speed <= 0) {
-                    endEvent.end(this);
+                    endEvent.end();
                 }
             }
         }

@@ -35,6 +35,8 @@ public class GameplayScreen extends Screen {
         controller.setControllable(player);
 
         camera = new CenterCamera(new Rectangle(0, 0, 500, 500), 1);
+
+        camera.setTarget(player);
     }
 
     @Override
@@ -46,8 +48,6 @@ public class GameplayScreen extends Screen {
         if (!paused) {
             player.update(delta);
         }
-
-        camera.setTarget(player.getCenterPosition());
         camera.update(delta);
     }
 

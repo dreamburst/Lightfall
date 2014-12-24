@@ -5,8 +5,8 @@
 
 package com.dragonphase.lightfall.event.screen;
 
-import com.dragonphase.lightfall.screen.SplashScreen;
+import com.dragonphase.lightfall.event.Event;
 
-public interface SplashScreenEndEvent {
-    public void end(SplashScreen screen);
+public interface SplashScreenEndEvent extends Event {
+    public void end();
 }

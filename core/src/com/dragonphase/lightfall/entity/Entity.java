@@ -21,8 +21,7 @@ import java.util.*;
 public abstract class Entity implements LogicBase {
 
     private Vector<Float> position;
-    private Vector<Float> velocity;
-    private Vector<Float> speed;
+    private Vector<Float> centerPosition;
 
     private Map<EntityState, Map<Direction, Animation>> animations;
 
@@ -42,8 +41,8 @@ public abstract class Entity implements LogicBase {
     public Entity(String texture, Size size, Vector<Float> position, EntityState state, Direction direction) {
         setSize(size);
         setPosition(position);
-        setVelocity(new Vector<>(0f, 0f));
-        setSpeed(new Vector<>(1f, 1f));
+
+        setCenterPosition(new Vector<>(position.getX() + size.getWidth() / 2, position.getY() + size.getHeight() / 2));
 
         components = new HashSet<>();
 
@@ -87,26 +86,11 @@ public abstract class Entity implements LogicBase {
     }
 
     public Vector<Float> getCenterPosition() {
-        return new Vector<>(
-                getPosition().getX() + getSize().getWidth() / 2,
-                getPosition().getY() + getSize().getHeight() / 2
-        );
+        return centerPosition;
     }
 
-    public Vector<Float> getVelocity() {
-        return velocity;
-    }
-
-    public void setVelocity(Vector<Float> velocity) {
-        this.velocity = velocity;
-    }
-
-    public Vector<Float> getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(Vector<Float> speed) {
-        this.speed = speed;
+    public void setCenterPosition(Vector<Float> centerPosition) {
+        this.centerPosition = centerPosition;
     }
 
     public Size getSize() {
@@ -137,7 +121,11 @@ public abstract class Entity implements LogicBase {
         try {
             return animations.get(getState()).get(getDirection());
         } catch (Exception exception) {
-            return animations.get(EntityState.NONE).get(Direction.UP);
+            return animations.get(
+                    animations.containsKey(EntityState.NONE)
+                    ? EntityState.NONE
+                    : EntityState.IDLE
+            ).get(Direction.UP);
         }
     }
 
@@ -170,15 +158,19 @@ public abstract class Entity implements LogicBase {
         }
     }
 
+    public <T extends Component> boolean hasComponent(Class<T> clazz) {
+        return getComponent(clazz) != null;
+    }
+
     @Override
     public void update(float delta) {
         elapsedTime += delta;
 
+        getCenterPosition().set(position.getX() + size.getWidth() / 2, position.getY() + size.getHeight() / 2);
+
         for (Component component : getComponents()) {
             component.update(delta);
         }
-
-        getPosition().set(getPosition().getX() + getVelocity().getX(), getPosition().getY() + getVelocity().getY());
     }
 
     @Override

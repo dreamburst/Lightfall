@@ -35,7 +35,11 @@ public final class Assets {
             new Gamepad(SEQUENCE_DELAY)
     );
 
-    public static final String[] CONTROLLER_NAMES = new String[] {"xbox", "playstation"};
+    //public static final String[] CONTROLLER_NAMES = new String[] {"xbox", "playstation"};
+
+    // PLAYER DEFAULTS:
+
+    public static final Vector<Float> PLAYER_SPEED = new Vector<>(1f, 1f);
 
     private Assets() {}
 

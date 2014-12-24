@@ -6,8 +6,6 @@
 package com.dragonphase.lightfall.entity.component;
 
 import com.dragonphase.lightfall.entity.Controllable;
-import com.dragonphase.lightfall.entity.Entity;
-import com.dragonphase.lightfall.entity.EntityController;
 import com.dragonphase.lightfall.entity.EntityState;
 import com.dragonphase.lightfall.input.control.Controls;
 import com.dragonphase.lightfall.util.Direction;
@@ -18,10 +16,16 @@ public class ControlComponent extends Component {
         return getOwner() instanceof Controllable ? (Controllable) getOwner() : null;
     }
 
+    // TODO: Allow input to be processed for entities that do not own a MovementComponent.
+
     public void checkInput() {
-        if (getControllableOwner() == null || getControllableOwner().getController().getControllable() != getOwner()) {
+        if (getControllableOwner() == null
+                || getControllableOwner().getController().getControllable() != getOwner()
+                || !getOwner().hasComponent(MovementComponent.class)) {
             return;
         }
+
+        MovementComponent movement = getOwner().getComponent(MovementComponent.class);
 
         // ENTITY STATE:
 
@@ -33,37 +37,37 @@ public class ControlComponent extends Component {
         }
 
         if (getControllableOwner().getController().getControlMap().controlDown(Controls.ATTACK)) {
-            //getOwner().setState(EntityState.ATTACKING);
+            getOwner().setState(EntityState.ATTACKING);
         }
 
         // MOVEMENT:
 
         if (getControllableOwner().getController().getControlMap().controlDown(Controls.MOVE_UP)) {
-            getOwner().getVelocity().set(getOwner().getVelocity().getX(), getOwner().getSpeed().getY());
+            movement.getVelocity().setY(movement.getSpeed().getY());
             getOwner().setDirection(Direction.UP);
-        } else if (getOwner().getVelocity().getY() > 0) {
-            getOwner().getVelocity().set(getOwner().getVelocity().getX(), 0f);
+        } else if (movement.getVelocity().getY() > 0) {
+            movement.getVelocity().setY(0f);
         }
 
         if (getControllableOwner().getController().getControlMap().controlDown(Controls.MOVE_DOWN)) {
-            getOwner().getVelocity().set(getOwner().getVelocity().getX(), -getOwner().getSpeed().getY());
+            movement.getVelocity().setY(-movement.getSpeed().getY());
             getOwner().setDirection(Direction.DOWN);
-        } else if (getOwner().getVelocity().getY() < 0) {
-            getOwner().getVelocity().set(getOwner().getVelocity().getX(), 0f);
+        } else if (movement.getVelocity().getY() < 0) {
+            movement.getVelocity().setY(0f);
         }
 
         if (getControllableOwner().getController().getControlMap().controlDown(Controls.MOVE_LEFT)) {
-            getOwner().getVelocity().set(-getOwner().getSpeed().getX(), getOwner().getVelocity().getY());
+            movement.getVelocity().setX(-movement.getSpeed().getX());
             getOwner().setDirection(Direction.LEFT);
-        } else if (getOwner().getVelocity().getX() < 0) {
-            getOwner().getVelocity().set(0f, getOwner().getVelocity().getY());
+        } else if (movement.getVelocity().getX() < 0) {
+            movement.getVelocity().setX(0f);
         }
 
         if (getControllableOwner().getController().getControlMap().controlDown(Controls.MOVE_RIGHT)) {
-            getOwner().getVelocity().set(getOwner().getSpeed().getX(), getOwner().getVelocity().getY());
+            movement.getVelocity().setX(movement.getSpeed().getX());
             getOwner().setDirection(Direction.RIGHT);
-        } else if (getOwner().getVelocity().getX() > 0) {
-            getOwner().getVelocity().set(0f, getOwner().getVelocity().getY());
+        } else if (movement.getVelocity().getX() > 0) {
+            movement.getVelocity().setX(0f);
         }
     }
 
