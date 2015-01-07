@@ -30,8 +30,8 @@ public class Lightfall implements LogicBase {
             public void end() {
                 splashScreen.getScreenManager().removeScreen(SplashScreen.class);
 
-                screenManager.addScreen(splashScreen2);
-                screenManager.setActiveScreen(splashScreen2);
+                getScreenManager().addScreen(splashScreen2);
+                getScreenManager().setActiveScreen(splashScreen2);
             }
         });
 
@@ -44,23 +44,27 @@ public class Lightfall implements LogicBase {
             }
         });
 
-        screenManager.addScreen(splashScreen);
-        screenManager.setActiveScreen(splashScreen);
+        getScreenManager().addScreen(splashScreen);
+        getScreenManager().setActiveScreen(splashScreen);
     }
 
     public void showMainMenu() {
         GameplayScreen screen = new GameplayScreen(screenManager);
-        screenManager.addScreen(screen);
-        screenManager.setActiveScreen(screen);
+        getScreenManager().addScreen(screen);
+        getScreenManager().setActiveScreen(screen);
+    }
+
+    public ScreenManager getScreenManager() {
+        return screenManager;
     }
 
     @Override
     public void update(float delta) {
-        screenManager.update(delta);
+        getScreenManager().update(delta);
     }
 
     @Override
     public void draw(SpriteBatch spriteBatch, float delta) {
-        screenManager.draw(spriteBatch, delta);
+        getScreenManager().draw(spriteBatch, delta);
     }
 }

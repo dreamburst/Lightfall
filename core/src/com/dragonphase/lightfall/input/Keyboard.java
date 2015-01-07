@@ -9,10 +9,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.dragonphase.lightfall.input.type.Keys;
 import com.dragonphase.lightfall.input.type.MouseButtons;
-import com.dragonphase.lightfall.util.Vector;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Keyboard extends SequenceHandler<Keys> implements InputProcessor {
 
@@ -57,6 +53,8 @@ public class Keyboard extends SequenceHandler<Keys> implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         getMouse().getCurrentInput().add(MouseButtons.match(button));
+        getMouse().getActiveSequence().add(MouseButtons.match(button));
+        
         setMousePosition(screenX, screenY);
 
         return true;

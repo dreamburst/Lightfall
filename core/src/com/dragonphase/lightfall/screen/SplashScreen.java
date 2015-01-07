@@ -8,6 +8,7 @@ package com.dragonphase.lightfall.screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.dragonphase.lightfall.event.screen.SplashScreenEndEvent;
+import com.dragonphase.lightfall.input.InputController;
 import com.dragonphase.lightfall.input.control.Controls;
 import com.dragonphase.lightfall.util.Assets;
 import com.dragonphase.lightfall.util.Display;
@@ -59,7 +60,7 @@ public class SplashScreen extends Screen {
                 interval += speed;
             }
 
-            if (Assets.CONTROLS.controlPressed(Controls.values())) {
+            if (InputController.getInstance().getControlMap().controlPressed(Controls.values())) {
                 endEvent.end();
             }
 

@@ -10,44 +10,51 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.dragonphase.lightfall.core.LogicBase;
 import com.dragonphase.lightfall.entity.Entity;
-import com.dragonphase.lightfall.util.CenterCamera;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Zone implements LogicBase {
+public class Zone implements Sector {
+
+    // TODO: Set viewport bounds to current area bounds or use a new viewport for each Zone.
 
     private List<Area> areas;
 
     private List<Entity> entities;
-
-    private CenterCamera centerCamera;
 
     private TiledMap tiledMap;
     private TiledMapRenderer tiledMapRenderer;
 
     public Zone() {
         areas = new ArrayList<>();
+        entities = new ArrayList<>();
     }
 
     public List<Area> getAreas() {
         return areas;
     }
+    
+    public List<Entity> getEntities() {
+        return entities;
+    }
 
     @Override
     public void update(float delta) {
-
+        for (Entity entity : getEntities()) {
+            entity.update(delta);
+        }
     }
 
     @Override
     public void draw(SpriteBatch spriteBatch, float delta) {
-        tiledMapRenderer.setView(centerCamera.getCamera());
-
-        for (MapLayer layer : tiledMap.getLayers()) {
-            tiledMapRenderer.renderTileLayer((TiledMapTileLayer) layer);
+        for (Entity entity : getEntities()) {
+            entity.draw(spriteBatch, delta);
         }
+        
+        /*for (MapLayer layer : tiledMap.getLayers()) {
+            tiledMapRenderer.renderTileLayer((TiledMapTileLayer) layer);
+        }*/
 
         /**
          *  TODO: Silhouettes with shaders, using topmost MapLayer(s) as a texture mask:

@@ -6,14 +6,11 @@
 package com.dragonphase.lightfall.entity.living;
 
 import com.dragonphase.lightfall.entity.Controllable;
-import com.dragonphase.lightfall.entity.Entity;
-import com.dragonphase.lightfall.entity.EntityController;
 import com.dragonphase.lightfall.entity.EntityState;
 import com.dragonphase.lightfall.entity.component.ControlComponent;
 import com.dragonphase.lightfall.entity.component.HealthComponent;
 import com.dragonphase.lightfall.entity.component.MovementComponent;
-import com.dragonphase.lightfall.input.control.ControlMap;
-import com.dragonphase.lightfall.input.control.Controls;
+import com.dragonphase.lightfall.input.InputController;
 import com.dragonphase.lightfall.util.Assets;
 import com.dragonphase.lightfall.util.Direction;
 import com.dragonphase.lightfall.util.Size;
@@ -21,7 +18,7 @@ import com.dragonphase.lightfall.util.Vector;
 
 public class Player extends LivingEntity implements Controllable {
 
-    private EntityController controller;
+    private InputController controller;
 
     public Player(
             String texture, Size size, Vector<Float> position, EntityState state, Direction direction, float health) {
@@ -37,12 +34,12 @@ public class Player extends LivingEntity implements Controllable {
     }
 
     @Override
-    public EntityController getController() {
+    public InputController getController() {
         return controller;
     }
 
     @Override
-    public void setController(EntityController controller) {
+    public void setController(InputController controller) {
         this.controller = controller;
     }
 }

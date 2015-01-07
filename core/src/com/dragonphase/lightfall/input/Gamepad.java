@@ -11,7 +11,6 @@ import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import com.dragonphase.lightfall.input.type.Axis;
 import com.dragonphase.lightfall.input.type.Buttons;
-import com.dragonphase.lightfall.util.Assets;
 import com.dragonphase.lightfall.util.Utils;
 
 import java.util.HashMap;
@@ -51,7 +50,7 @@ public class Gamepad extends SequenceHandler<Buttons> implements ControllerListe
     public boolean buttonDown(Controller controller, int buttonCode) {
         getCurrentInput().add(Buttons.match(buttonCode));
         getActiveSequence().add(Buttons.match(buttonCode));
-
+        
         setSequenceTimer(0);
 
         return false;
@@ -68,7 +67,7 @@ public class Gamepad extends SequenceHandler<Buttons> implements ControllerListe
     public boolean axisMoved(Controller controller, int axisCode, float value) {
         value = Utils.round(value, 2);
 
-        if (Math.abs(value) >= Assets.CONTROLLER_DEADZONE) {
+        if (Math.abs(value) >= Input.getInstance().getControllerDeadzone()) {
             getCurrentAxis().put(Axis.match(axisCode), value);
             switch (Axis.match(axisCode)) {
                 case LY:

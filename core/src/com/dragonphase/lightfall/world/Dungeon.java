@@ -6,12 +6,11 @@
 package com.dragonphase.lightfall.world;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.dragonphase.lightfall.core.LogicBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Dungeon implements LogicBase {
+public class Dungeon implements Sector {
 
     private List<Zone> zones;
 

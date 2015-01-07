@@ -74,5 +74,4 @@ public class ControlComponent extends Component {
     public void update(float delta) {
         checkInput();
     }
-
 }

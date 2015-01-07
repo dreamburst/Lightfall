@@ -5,6 +5,7 @@
 
 package com.dragonphase.lightfall.input;
 
+import com.dragonphase.lightfall.input.control.Controls;
 import com.dragonphase.lightfall.input.type.*;
 
 import java.util.*;
@@ -264,11 +265,7 @@ public class InputManager {
             return hasSequence(keyboard, types);
         }
 
-        if (types[0] instanceof Buttons) {
-            return hasSequence(gamepad, types);
-        }
-
-        return false;
+        return types[0] instanceof Buttons && hasSequence(gamepad, types);
     }
 
     public boolean hasSequence(SequenceHandler handler, InputType... types) {

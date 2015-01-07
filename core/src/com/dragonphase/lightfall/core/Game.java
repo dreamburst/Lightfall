@@ -11,57 +11,49 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.dragonphase.lightfall.input.Input;
+import com.dragonphase.lightfall.input.InputController;
 import com.dragonphase.lightfall.input.control.Controls;
-import com.dragonphase.lightfall.input.type.Axis;
 import com.dragonphase.lightfall.input.type.Buttons;
 import com.dragonphase.lightfall.input.type.Keys;
-import com.dragonphase.lightfall.input.type.MouseButtons;
-import com.dragonphase.lightfall.util.Assets;
 import com.dragonphase.lightfall.util.Display;
 import com.dragonphase.lightfall.util.ScreenViewport;
-import com.dragonphase.lightfall.util.Vector;
+
+import java.util.Random;
 
 public class Game extends ApplicationAdapter implements LogicBase {
 
     public static boolean DEBUG;
 
     private SpriteBatch spriteBatch;
-    private ScreenViewport viewport;
 
     private Lightfall lightfall;
 
     private boolean globalPaused;
 
-    public void registerInput() {
-        Controllers.addListener(Assets.INPUT.getGamepad());
-        Gdx.input.setInputProcessor(Assets.INPUT.getKeyboard());
+    private Input input;
 
-        Assets.CONTROLS.setControl(Controls.MOVE_UP, Keys.W, Axis.L_UP);
-        Assets.CONTROLS.setControl(Controls.MOVE_DOWN, Keys.S, Axis.L_DOWN);
-        Assets.CONTROLS.setControl(Controls.MOVE_LEFT, Keys.A, Axis.L_LEFT);
-        Assets.CONTROLS.setControl(Controls.MOVE_RIGHT, Keys.D, Axis.L_RIGHT);
-        Assets.CONTROLS.setControl(Controls.SPRINT, Keys.SPACE, Buttons.L3);
-        Assets.CONTROLS.setControl(Controls.ATTACK, MouseButtons.LEFT, Axis.RT);
-        Assets.CONTROLS.setControl(Controls.INTERACT, Keys.E, Buttons.A);
-        Assets.CONTROLS.setControl(Controls.USE_ITEM, MouseButtons.RIGHT, Buttons.RB);
-        Assets.CONTROLS.setControl(Controls.OPEN_INVENTORY, Keys.Q, Buttons.Y);
-        Assets.CONTROLS.setControl(Controls.OPEN_MAP, Keys.C, Buttons.BACK);
-        Assets.CONTROLS.setControl(Controls.PAUSE, Keys.ESCAPE, Buttons.START);
+    public void registerInput() {
+        input = Input.getInstance();
+
+        Controllers.addListener(input.getInputManager().getGamepad());
+        Gdx.input.setInputProcessor(input.getInputManager().getKeyboard());
     }
 
     @Override
     public void create() {
         spriteBatch = new SpriteBatch();
-        viewport = new ScreenViewport();
 
         lightfall = new Lightfall();
 
         registerInput();
+
+        Display.VIEWPORT = new ScreenViewport();
     }
 
     @Override
     public void resize(int width, int height) {
-        viewport.resize(width, height);
+        Display.VIEWPORT.resize(width, height);
     }
 
     @Override
@@ -75,14 +67,14 @@ public class Game extends ApplicationAdapter implements LogicBase {
     }
 
     @Override
-    public void render () {
+    public void render() {
         update(Gdx.graphics.getDeltaTime());
         draw(spriteBatch, Gdx.graphics.getDeltaTime());
     }
 
     @Override
     public void update(float delta) {
-        viewport.update(delta);
+        Display.VIEWPORT.update(delta);
 
         if (!globalPaused) {
             lightfall.update(delta);
@@ -91,7 +83,7 @@ public class Game extends ApplicationAdapter implements LogicBase {
             This is used for debugging purposes and will be removed in the final game; options to
             change the game resolution and toggle fullscreen will be added in the final game.
               */
-            if (Assets.INPUT.inputReleased(Keys.F11)) {
+            if (input.getInputManager().inputReleased(Keys.F11)) {
                 if (Gdx.graphics.isFullscreen()) {
                     Gdx.graphics.setDisplayMode(Display.VIEWPORT_SIZE.getWidth(), Display.VIEWPORT_SIZE.getHeight(), false);
                 } else {
@@ -103,17 +95,21 @@ public class Game extends ApplicationAdapter implements LogicBase {
                 }
             }
 
-            if (Assets.INPUT.inputReleased(Keys.F3, Buttons.L3)) {
+            if (input.getInputManager().hasSequence("up up down down left right left right b a")) {
+                System.out.println("Yes" + new Random().nextInt());
+            }
+
+            if (input.getInputManager().inputReleased(Keys.F3, Buttons.L3)) {
                 DEBUG = !DEBUG;
             }
 
-            Assets.INPUT.update();
+            input.update();
         }
     }
 
     @Override
     public void draw(SpriteBatch spriteBatch, float delta) {
-        viewport.draw(spriteBatch, delta);
+        Display.VIEWPORT.draw(spriteBatch, delta);
 
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

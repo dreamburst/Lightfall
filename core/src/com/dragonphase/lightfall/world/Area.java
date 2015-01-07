@@ -6,6 +6,7 @@
 package com.dragonphase.lightfall.world;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.dragonphase.lightfall.util.Display;
 import com.dragonphase.lightfall.util.Size;
 import com.dragonphase.lightfall.util.Vector;
 
@@ -21,11 +22,19 @@ public class Area {
         setBounds(bounds);
     }
 
+    public Area() {
+        this(new Rectangle(0, 0, 0, 0));
+    }
+
     public Rectangle getBounds() {
         return bounds;
     }
 
     public void setBounds(Rectangle bounds) {
         this.bounds = bounds;
+    }
+    
+    public void focus() {
+        Display.VIEWPORT.setBounds(getBounds());
     }
 }

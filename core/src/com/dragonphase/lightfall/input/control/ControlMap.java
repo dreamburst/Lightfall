@@ -5,9 +5,8 @@
 
 package com.dragonphase.lightfall.input.control;
 
-import com.dragonphase.lightfall.core.Game;
+import com.dragonphase.lightfall.input.Input;
 import com.dragonphase.lightfall.input.type.InputType;
-import com.dragonphase.lightfall.util.Assets;
 
 import java.util.*;
 
@@ -38,7 +37,7 @@ public class ControlMap {
      */
     public boolean controlDown(Controls... controls) {
         for (Controls control : controls) {
-            if (Assets.INPUT.inputDown(getInputs(control))) {
+            if (Input.getInstance().getInputManager().inputDown(getInputs(control))) {
                 return true;
             }
         }
@@ -68,7 +67,7 @@ public class ControlMap {
      */
     public boolean controlUp(Controls... controls) {
         for (Controls control : controls) {
-            if (Assets.INPUT.inputUp(getInputs(control))) {
+            if (Input.getInstance().getInputManager().inputUp(getInputs(control))) {
                 return true;
             }
         }
@@ -98,7 +97,7 @@ public class ControlMap {
      */
     public boolean controlPressed(Controls... controls) {
         for (Controls control : controls) {
-            if (Assets.INPUT.inputPressed(getInputs(control))) {
+            if (Input.getInstance().getInputManager().inputPressed(getInputs(control))) {
                 return true;
             }
         }
@@ -128,7 +127,7 @@ public class ControlMap {
      */
     public boolean controlReleased(Controls... controls) {
         for (Controls control : controls) {
-            if (Assets.INPUT.inputReleased(getInputs(control))) {
+            if (Input.getInstance().getInputManager().inputReleased(getInputs(control))) {
                 return true;
             }
         }

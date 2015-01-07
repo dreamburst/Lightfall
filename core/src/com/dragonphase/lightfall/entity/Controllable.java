@@ -5,7 +5,9 @@
 
 package com.dragonphase.lightfall.entity;
 
+import com.dragonphase.lightfall.input.InputController;
+
 public interface Controllable {
-    public EntityController getController();
-    public void setController(EntityController controller);
+    public InputController getController();
+    public void setController(InputController controller);
 }

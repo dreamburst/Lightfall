@@ -5,8 +5,6 @@
 
 package com.dragonphase.lightfall.entity.component;
 
-import com.dragonphase.lightfall.entity.Entity;
-
 public abstract class HealthComponent extends Component {
 
     private float health;
